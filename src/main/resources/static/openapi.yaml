@@ -1,0 +1,115 @@
+openapi: 3.0.3
+info:
+  title: Hackathon API
+  description: API для регистрации участников и рассылки уведомлений.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local server
+
+paths:
+  /api/auth/register:
+    post:
+      summary: Регистрация нового участника
+      description: Публичный эндпоинт для регистрации. Не требует авторизации.
+      operationId: registerUser
+      security: [ ] # Явно указываем, что здесь авторизация не нужна
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationDto'
+      responses:
+        '200':
+          description: Успешная регистрация
+        '400':
+          description: Ошибка валидации данных
+
+  /api/mail/broadcast:
+    post:
+      summary: Рассылка писем по шаблону
+      description: |
+        Отправляет письма всем пользователям. Требует Basic Auth.
+        Поддерживаемые плейсхолдеры в шаблоне и теме: ${name}, ${surname}, ${email}, ${organization}, ${teamName}, ${telegramName}, ${phoneNumber}.
+      operationId: sendBroadcast
+      security:
+        - basicAuth: [ ] # Требует Basic Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailBroadcastDto'
+      responses:
+        '200':
+          description: Рассылка успешно запущена
+        '400':
+          description: Некорректный шаблон или данные
+        '401':
+          description: Ошибка авторизации (неверный логин/пароль)
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+
+  schemas:
+    RegistrationDto:
+      type: object
+      required:
+        - name
+        - surname
+        - email
+        - teamLead
+        - searchingCommand
+        - organization
+        - telegramName
+        - phoneNumber
+      properties:
+        name:
+          type: string
+          example: "Иван"
+        surname:
+          type: string
+          example: "Иванов"
+        email:
+          type: string
+          format: email
+          example: "ivan@example.com"
+        teamLead:
+          type: boolean
+          example: false
+        searchingCommand:
+          type: boolean
+          example: true
+        organization:
+          type: string
+          example: "МГТУ им. Баумана"
+        teamName:
+          type: string
+          nullable: true
+          example: "RocketTeam"
+        telegramName:
+          type: string
+          example: "@ivanov"
+        phoneNumber:
+          type: string
+          pattern: "^(8|\\+7)(\\s|\\(|-)?(\\d{3})(\\s|\\)|-)?(\\d{3})(\\s|-)?(\\d{2})(\\s|-)?(\\d{2})$"
+          example: "+79990000000"
+
+    EmailBroadcastDto:
+      type: object
+      required:
+        - template
+      properties:
+        template:
+          type: string
+          description: HTML или текстовый шаблон письма с плейсхолдерами.
+          example: "Привет, ${name}! Ждем тебя на хакатоне."
+        subject:
+          type: string
+          nullable: true
+          description: Тема письма.
+          example: "Важная информация"
