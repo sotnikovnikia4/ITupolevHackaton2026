@@ -23,7 +23,9 @@ public class EmailSenderService {
             message.setTo(to);
             message.setSubject(subject != null ? subject : "Notification");
             message.setText(text);
+            logger.debug("Sending mail to: {}", to);
             mailSender.send(message);
+            logger.debug("Sent mail to: {}", to);
         } catch (Exception e) {
             logger.error("Failed to send email to {}: {}", to, e.getMessage());
         }
