@@ -10,11 +10,14 @@ public class Convertors {
         user.setName(registrationDto.name());
         user.setSurname(registrationDto.surname());
         user.setOrganization(registrationDto.organization());
-        user.setPhoneNumber(normalizePhoneNumber(registrationDto.phoneNumber()));
-        user.setTeamLead(registrationDto.teamLead());
+        user.setPhoneNumber(registrationDto.phoneNumber());
         user.setTelegramName(registrationDto.telegramName());
         user.setSearchingCommand(registrationDto.searchingCommand());
-        user.setTeamName(registrationDto.teamName());
+
+        if (!user.isSearchingCommand()) {
+            user.setTeamName(registrationDto.teamName());
+            user.setTeamLead(registrationDto.teamLead());
+        }
 
         return user;
     }
@@ -34,5 +37,9 @@ public class Convertors {
         }
 
         return normalizedPhoneNumber.toString();
+    }
+
+    public static String normalizeEmail(String email) {
+        return email.toLowerCase();
     }
 }

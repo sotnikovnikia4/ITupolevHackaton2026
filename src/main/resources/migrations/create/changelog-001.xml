@@ -38,8 +38,12 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="01-2" author="create">
+    <changeSet id="02" author="create">
         <addUniqueConstraint columnNames="phone_number" constraintName="uc_user_table_phonenumber"
+                             tableName="user_table"/>
+    </changeSet>
+    <changeSet id="03" author="create">
+        <addUniqueConstraint columnNames="email" constraintName="uc_user_table_email"
                              tableName="user_table"/>
     </changeSet>
 

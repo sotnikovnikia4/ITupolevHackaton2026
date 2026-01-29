@@ -20,4 +20,9 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUserWithPhone(String phoneNumber) {
         return userRepository.findByPhoneNumber(Convertors.normalizePhoneNumber(phoneNumber));
     }
+
+    @Override
+    public Optional<User> getUserWithEmail(String email) {
+        return userRepository.findByEmail(Convertors.normalizeEmail(email));
+    }
 }

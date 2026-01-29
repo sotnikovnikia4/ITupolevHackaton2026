@@ -22,16 +22,12 @@ public class RegistrationDtoValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        var dto = (RegistrationDto) target;
-
-        if (dto.searchingCommand() == null) {
+        if (errors.hasErrors()) {
             return;
         }
+        var dto = (RegistrationDto) target;
 
         if (!dto.searchingCommand()) {
-            if (Strings.isEmpty(dto.teamLeadLink())) {
-                errors.rejectValue("teamLeadLink", "", "Team Lead Link Required");
-            }
             if (Strings.isEmpty(dto.teamName())) {
                 errors.rejectValue("teamName", "", "Team Name Required");
             }
@@ -45,5 +41,12 @@ public class RegistrationDtoValidator implements Validator {
             }
         }
 
+        if (!errors.hasFieldErrors("email")) {
+            var user = userService.getUserWithEmail(dto.email());
+
+            if (user.isPresent()) {
+                errors.rejectValue("email", "", "User with phone already exists");
+            }
+        }
     }
 }
