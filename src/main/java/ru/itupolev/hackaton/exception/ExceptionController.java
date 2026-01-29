@@ -19,4 +19,10 @@ public class ExceptionController {
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(TemplateException.class)
+    public ResponseEntity<ExceptionMessage> handleException(TemplateException e) {
+        ExceptionMessage message = ExceptionMessage.builder().message(e.getMessage()).status(HttpStatus.BAD_REQUEST.value()).timestamp(new Date()).build();
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
+
 }
