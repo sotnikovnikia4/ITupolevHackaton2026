@@ -22,7 +22,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(to);
-            message.setSubject(subject != null ? subject : "Notification");
+            message.setSubject(subject);
             message.setText(text);
             logger.debug("Sending mail to: {}", to);
             mailSender.send(message);

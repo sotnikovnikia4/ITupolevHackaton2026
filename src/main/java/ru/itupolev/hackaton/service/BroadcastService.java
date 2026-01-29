@@ -15,5 +15,7 @@ public interface BroadcastService {
             "team", "telegram", "phone"
     );
 
+    String DEFAULT_SUBJECT = "Notification";
+
     void sendBroadcast(EmailBroadcastDto request);
 }

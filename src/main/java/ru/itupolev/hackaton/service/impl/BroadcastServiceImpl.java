@@ -29,14 +29,14 @@ public class BroadcastServiceImpl implements BroadcastService {
     public void sendBroadcast(EmailBroadcastDto request) {
         var template = request.template();
 
-        // 1. Валидация шаблона
-        validateTemplate(template);
+        var subject = request.subject() != null ? request.subject() : DEFAULT_SUBJECT;
 
-        // 2. Получение всех пользователей
+        validateTemplate(template);
+        validateTemplate(subject);
+
         var users = userRepository.findAll();
 
-        // 3. Рассылка (в реальном проекте лучше делать это асинхронно @Async)
-        send(users, template, request.subject());
+        send(users, template, subject);
     }
 
     private void send(List<User> users, String template, String subject) {
@@ -45,8 +45,10 @@ public class BroadcastServiceImpl implements BroadcastService {
                 continue;
             }
 
+
             String personalizedMessage = replacePlaceholders(template, user);
-            emailSenderService.sendEmail(user.getEmail(), subject, personalizedMessage);
+            String personalizedSubject = replacePlaceholders(subject, user);
+            emailSenderService.sendEmail(user.getEmail(), personalizedSubject, personalizedMessage);
         }
     }
 
