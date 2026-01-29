@@ -13,8 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class SecurityConfig {
-    @Value("${cors.allowedOrigins}")
-    private String allowedOrigins;
+    @Value("#{'${cors.allowedOrigins}'.split(',')}")
+    private String[] allowedOrigins;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,7 +37,11 @@ public class SecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins(allowedOrigins).allowedMethods("*");
+                registry.addMapping("/**") // Разрешить для всех эндпоинтов
+                        .allowedOrigins(allowedOrigins) // URL вашего фронтенда
+                        .allowedMethods("*")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }
