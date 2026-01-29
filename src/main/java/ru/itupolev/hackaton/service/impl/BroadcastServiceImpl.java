@@ -82,9 +82,9 @@ public class BroadcastServiceImpl implements BroadcastService {
         values.put("email", user.getEmail());
         values.put("organization", user.getOrganization());
         // teamName может быть null, заменяем на пустую строку или дефолт
-        values.put("teamName", user.getTeamName() != null ? user.getTeamName() : "");
-        values.put("telegramName", user.getTelegramName());
-        values.put("phoneNumber", user.getPhoneNumber());
+        values.put("team", user.getTeamName() != null ? user.getTeamName() : "");
+        values.put("telegram", user.getTelegramName());
+        values.put("phone", user.getPhoneNumber());
 
         String result = template;
         for (Map.Entry<String, String> entry : values.entrySet()) {

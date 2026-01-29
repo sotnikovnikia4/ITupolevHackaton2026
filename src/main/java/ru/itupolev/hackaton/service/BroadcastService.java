@@ -12,7 +12,7 @@ public interface BroadcastService {
     // Разрешенные поля
     Set<String> ALLOWED_FIELDS = Set.of(
             "name", "surname", "email", "organization",
-            "teamName", "telegramName", "phoneNumber"
+            "team", "telegram", "phone"
     );
 
     void sendBroadcast(EmailBroadcastDto request);
