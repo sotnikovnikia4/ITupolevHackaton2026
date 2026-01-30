@@ -28,8 +28,8 @@ public class RegistrationDtoValidator implements Validator {
         var dto = (RegistrationDto) target;
 
         if (!dto.searchingCommand()) {
-            if (Strings.isEmpty(dto.teamName())) {
-                errors.rejectValue("teamName", "", "Team Name Required");
+            if (Strings.isEmpty(dto.teamName().trim())) {
+                errors.rejectValue("teamName", "", "Нужно указать название команды");
             }
         }
 
@@ -37,7 +37,7 @@ public class RegistrationDtoValidator implements Validator {
             var user = userService.getUserWithPhone(dto.phoneNumber());
 
             if (user.isPresent()) {
-                errors.rejectValue("phoneNumber", "", "User with phone already exists");
+                errors.rejectValue("phoneNumber", "", "С этим телефоном уже регистрировались");
             }
         }
 
@@ -45,7 +45,7 @@ public class RegistrationDtoValidator implements Validator {
             var user = userService.getUserWithEmail(dto.email());
 
             if (user.isPresent()) {
-                errors.rejectValue("email", "", "User with email already exists");
+                errors.rejectValue("email", "", "С этим email уже регистрировались");
             }
         }
 
@@ -53,7 +53,7 @@ public class RegistrationDtoValidator implements Validator {
             var user = userService.getUserWithTelegram(dto.telegramName());
 
             if (user.isPresent()) {
-                errors.rejectValue("telegramName", "", "User with telegram already exists");
+                errors.rejectValue("telegramName", "", "Пользователь с таким телеграм уже есть");
             }
         }
     }

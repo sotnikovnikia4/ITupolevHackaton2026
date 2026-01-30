@@ -9,12 +9,10 @@ public class ErrorMessageCreator {
     public static String createErrorMessage(BindingResult bindingResult) {
         StringBuilder errorMessage = new StringBuilder();
         for (var error : bindingResult.getFieldErrors()) {
-            errorMessage.append(error.getField());
-            errorMessage.append(": ");
             errorMessage.append(error.getDefaultMessage());
-            errorMessage.append(";");
+            errorMessage.append(", ");
         }
-        errorMessage.setLength(errorMessage.length() - 1);
+        errorMessage.setLength(errorMessage.length() - 2);
         return errorMessage.toString();
     }
 }
