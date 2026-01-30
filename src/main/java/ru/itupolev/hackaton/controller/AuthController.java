@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.itupolev.hackaton.controller.dto.RegistrationDto;
 import ru.itupolev.hackaton.service.AuthService;
 import ru.itupolev.hackaton.utils.ErrorMessageCreator;
-import ru.itupolev.hackaton.utils.converters.Convertors;
+import ru.itupolev.hackaton.utils.converters.Converters;
 
 @RestController
 @RequestMapping(value = "/api/auth")
@@ -36,7 +36,7 @@ public class AuthController {
             throw new ValidationException(ErrorMessageCreator.createErrorMessage(bindingResult));
         }
 
-        var user = Convertors.convertToUser(registrationDTO);
+        var user = Converters.convertToUser(registrationDTO);
 
         authService.register(user);
 

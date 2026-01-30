@@ -3,7 +3,10 @@ package ru.itupolev.hackaton.utils.converters;
 import ru.itupolev.hackaton.controller.dto.RegistrationDto;
 import ru.itupolev.hackaton.entity.User;
 
-public class Convertors {
+public class Converters {
+    private Converters() {
+    }
+
     public static User convertToUser(RegistrationDto registrationDto) {
         var user = new User();
         user.setEmail(registrationDto.email());

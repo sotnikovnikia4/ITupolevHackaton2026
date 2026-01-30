@@ -25,6 +25,10 @@ paths:
           description: Успешная регистрация
         '400':
           description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionMessage'
 
   /api/mail/broadcast:
     post:
@@ -46,8 +50,16 @@ paths:
           description: Рассылка успешно запущена
         '400':
           description: Некорректный шаблон или данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionMessage'
         '401':
           description: Ошибка авторизации (неверный логин/пароль)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionMessage'
 
 components:
   securitySchemes:
@@ -74,6 +86,11 @@ components:
         surname:
           type: string
           example: "Иванов"
+        patronymic:
+          type: string
+          nullable: true
+          example: "Иванович"
+          description: Отчество (необязательное поле)
         email:
           type: string
           format: email
@@ -113,3 +130,21 @@ components:
           nullable: true
           description: Тема письма.
           example: "Важная информация"
+
+    ExceptionMessage:
+      type: object
+      description: Универсальная схема ошибки API
+      properties:
+        status:
+          type: integer
+          description: HTTP статус код ошибки
+          example: 400
+        message:
+          type: string
+          description: Текст ошибки
+          example: "Validation failed for object='registrationDto'. Error count: 1"
+        timestamp:
+          type: string
+          format: date-time
+          description: Время возникновения ошибки
+          example: "2023-10-05T14:48:00.000Z"

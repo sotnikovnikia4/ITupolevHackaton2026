@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.itupolev.hackaton.entity.User;
 import ru.itupolev.hackaton.repository.UserRepository;
 import ru.itupolev.hackaton.service.UserService;
-import ru.itupolev.hackaton.utils.converters.Convertors;
+import ru.itupolev.hackaton.utils.converters.Converters;
 
 import java.util.Optional;
 
@@ -20,12 +20,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public Optional<User> getUserWithPhone(String phoneNumber) {
-        return userRepository.findByPhoneNumber(Convertors.normalizePhoneNumber(phoneNumber));
+        return userRepository.findByPhoneNumber(Converters.normalizePhoneNumber(phoneNumber));
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<User> getUserWithEmail(String email) {
-        return userRepository.findByEmail(Convertors.normalizeEmail(email));
+        return userRepository.findByEmail(Converters.normalizeEmail(email));
     }
 }
