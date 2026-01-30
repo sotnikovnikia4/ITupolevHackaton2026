@@ -1,5 +1,7 @@
 package ru.itupolev.hackaton.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +13,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.Arrays;
+
 @Configuration
 public class SecurityConfig {
-    @Value("#{'${cors.allowedOrigins}'.split(',')}")
+
+
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+    @Value("#{'${cors.allowed-origins}'.split(',')}")
     private String[] allowedOrigins;
 
     @Bean
@@ -37,6 +44,7 @@ public class SecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
+                logger.error(Arrays.toString(allowedOrigins));
                 registry.addMapping("/**") // Разрешить для всех эндпоинтов
                         .allowedOrigins(allowedOrigins) // URL вашего фронтенда
                         .allowedMethods("*")
