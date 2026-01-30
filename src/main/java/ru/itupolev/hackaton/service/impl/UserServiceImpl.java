@@ -28,4 +28,9 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUserWithEmail(String email) {
         return userRepository.findByEmail(Converters.normalizeEmail(email));
     }
+
+    @Override
+    public Optional<User> getUserWithTelegram(String telegramName) {
+        return userRepository.findByTelegramName(Converters.normalizeTelegramName(telegramName));
+    }
 }

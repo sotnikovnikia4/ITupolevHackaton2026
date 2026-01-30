@@ -20,6 +20,7 @@ public class AuthServiceImpl implements AuthService {
     public void register(User user) {
         user.setPhoneNumber(Converters.normalizePhoneNumber(user.getPhoneNumber()));
         user.setEmail(Converters.normalizeEmail(user.getEmail()));
+        user.setTelegramName(Converters.normalizeTelegramName(user.getTelegramName()));
         userRepository.save(user);
     }
 }

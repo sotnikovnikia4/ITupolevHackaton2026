@@ -9,4 +9,6 @@ public interface UserService {
     Optional<User> getUserWithPhone(String phoneNumber);
 
     Optional<User> getUserWithEmail(String email);
+
+    Optional<User> getUserWithTelegram(String telegramName);
 }

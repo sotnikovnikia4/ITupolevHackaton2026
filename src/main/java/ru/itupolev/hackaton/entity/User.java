@@ -23,6 +23,8 @@ public class User {
 
     @Column(nullable = false)
     private String surname;
+    
+    private String patronymic;
 
     @Column(unique = true, nullable = false)
     private String email;

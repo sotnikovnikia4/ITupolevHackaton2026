@@ -45,7 +45,15 @@ public class RegistrationDtoValidator implements Validator {
             var user = userService.getUserWithEmail(dto.email());
 
             if (user.isPresent()) {
-                errors.rejectValue("email", "", "User with phone already exists");
+                errors.rejectValue("email", "", "User with email already exists");
+            }
+        }
+
+        if (!errors.hasFieldErrors("telegramName")) {
+            var user = userService.getUserWithTelegram(dto.telegramName());
+
+            if (user.isPresent()) {
+                errors.rejectValue("telegramName", "", "User with telegram already exists");
             }
         }
     }

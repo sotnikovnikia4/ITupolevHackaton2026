@@ -17,6 +17,7 @@
             <column name="surname" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="patronymic" type="VARCHAR(255)"/>
             <column name="email" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>

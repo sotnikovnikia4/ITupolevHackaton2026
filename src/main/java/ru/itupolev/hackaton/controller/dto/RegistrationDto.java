@@ -12,6 +12,8 @@ public record RegistrationDto(
         @NotEmpty
         String surname,
 
+        String patronymic,
+
         @Email
         @NotEmpty
         String email,

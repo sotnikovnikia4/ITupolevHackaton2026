@@ -16,6 +16,7 @@ public class Converters {
         user.setPhoneNumber(registrationDto.phoneNumber());
         user.setTelegramName(registrationDto.telegramName());
         user.setSearchingCommand(registrationDto.searchingCommand());
+        user.setPatronymic(registrationDto.patronymic());
 
         if (!user.isSearchingCommand()) {
             user.setTeamName(registrationDto.teamName());
@@ -44,5 +45,9 @@ public class Converters {
 
     public static String normalizeEmail(String email) {
         return email.toLowerCase();
+    }
+
+    public static String normalizeTelegramName(String telegramName) {
+        return telegramName.toLowerCase();
     }
 }
