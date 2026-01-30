@@ -1,5 +1,6 @@
 package ru.itupolev.hackaton.service.impl;
 
+import org.slf4j.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itupolev.hackaton.controller.dto.EmailBroadcastDto;
@@ -14,6 +15,8 @@ import java.util.regex.Matcher;
 
 @Service
 public class BroadcastServiceImpl implements BroadcastService {
+    private static final Logger logger = LoggerFactory.getLogger(BroadcastServiceImpl.class);
+
     private final UserRepository userRepository;
     private final EmailSenderService emailSenderService;
 
@@ -27,6 +30,8 @@ public class BroadcastServiceImpl implements BroadcastService {
      */
     @Transactional(readOnly = true)
     public void sendBroadcast(EmailBroadcastDto request) {
+        logger.info("Sending Email Broadcast Request");
+
         var template = request.template();
 
         var subject = request.subject() != null ? request.subject() : DEFAULT_SUBJECT;
