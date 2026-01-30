@@ -44,7 +44,7 @@ public class SecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                logger.error(Arrays.toString(allowedOrigins));
+                logger.info(Arrays.toString(allowedOrigins));
                 registry.addMapping("/**") // Разрешить для всех эндпоинтов
                         .allowedOrigins(allowedOrigins) // URL вашего фронтенда
                         .allowedMethods("*")
