@@ -40,7 +40,7 @@ public class BroadcastServiceImpl implements BroadcastService {
         validateTemplate(subject);
 
         var users = userRepository.findAll();
-
+        logger.info("Found {} Users", users.size());
         send(users, template, subject);
     }
 
