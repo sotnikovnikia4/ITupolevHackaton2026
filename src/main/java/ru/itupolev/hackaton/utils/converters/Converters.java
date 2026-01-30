@@ -44,10 +44,10 @@ public class Converters {
     }
 
     public static String normalizeEmail(String email) {
-        return email.toLowerCase();
+        return email.toLowerCase().trim();
     }
 
     public static String normalizeTelegramName(String telegramName) {
-        return telegramName.toLowerCase();
+        return telegramName.toLowerCase().trim();
     }
 }

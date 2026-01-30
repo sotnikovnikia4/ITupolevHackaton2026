@@ -1,9 +1,6 @@
 package ru.itupolev.hackaton.controller.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 
 public record RegistrationDto(
         @NotEmpty
@@ -30,6 +27,8 @@ public record RegistrationDto(
         String teamName,
 
         @NotEmpty
+        @NotBlank(message = "Ник в Telegram не может быть пустым")
+        @Pattern(regexp = "^@.*", message = "Ник в Telegram должен начинаться с символа '@'")
         String telegramName,
 
         @Pattern(regexp = "^(8|\\+7)(\\s|\\(|-)?(\\d{3})(\\s|\\)|-)?(\\d{3})(\\s|-)?(\\d{2})(\\s|-)?(\\d{2})$")
