@@ -87,6 +87,7 @@ public class BroadcastServiceImpl implements BroadcastService {
         values.put("team", user.getTeamName() != null ? user.getTeamName() : "");
         values.put("telegram", user.getTelegramName());
         values.put("phone", user.getPhoneNumber());
+        values.put("patronymic", user.getPatronymic() != null ? user.getPatronymic() : "");
 
         String result = template;
         for (Map.Entry<String, String> entry : values.entrySet()) {

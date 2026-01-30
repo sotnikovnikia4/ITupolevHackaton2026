@@ -12,7 +12,7 @@ public interface BroadcastService {
     // Разрешенные поля
     Set<String> ALLOWED_FIELDS = Set.of(
             "name", "surname", "email", "organization",
-            "team", "telegram", "phone"
+            "team", "telegram", "phone", "patronymic"
     );
 
     String DEFAULT_SUBJECT = "Notification";

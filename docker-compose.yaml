@@ -20,7 +20,7 @@ services:
     build: .
     container_name: hackaton-backend
     ports:
-      - "8080:8080"
+      - "${BACKEND_EXTERNAL_PORT:-8080}:${BACKEND_INTERNAL_PORT:-8080}"
     depends_on:
       postgres:
         condition: service_healthy
@@ -47,6 +47,16 @@ services:
               "port": ${MAIL_PORT},
               "username": "${MAIL_USERNAME}",
               "password": "${MAIL_PASSWORD}"
+            }
+          },
+          "server": {
+            "port": ${BACKEND_INTERNAL_PORT:-8080},
+            "ssl": {
+              "key-store": "${SERVER_SSL_KEY_STORE}",
+              "key-store-password": "${SERVER_SSL_KEY_STORE_PASSWORD}",
+              "key-store-type": "${SERVER_SSL_KEY_STORE_TYPE}",
+              "key-alias": "${SERVER_SSL_KEY_ALIAS}",
+              "enabled": ${SERVER_SSL_ENABLED:-false}
             }
           },
           "cors": {
