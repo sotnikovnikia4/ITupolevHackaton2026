@@ -14,6 +14,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onStart }) => {
         relative z-0 mx-4 cursor-pointer 
         w-full max-w-3xl 
         rounded-[40px] 
+        overflow-hidden
         border border-white/30 bg-white/0 
         p-8 md:p-12 
         text-center shadow-2xl 
