@@ -15,6 +15,9 @@ const LandingView: React.FC<LandingViewProps> = ({ onStart }) => {
         w-full max-w-3xl 
         rounded-[40px] 
         overflow-hidden
+
+        transform-gpu isolation-isolate
+        
         border border-white/30 bg-white/0 
         p-8 md:p-12 
         text-center shadow-2xl 
@@ -30,7 +33,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onStart }) => {
           Itupolev
         </span>
         
-        <h1 className="mb-6 text-5xl font-black leading-[0.9] text-black uppercase md:text-7xl lg:text-8xl">
+        <h1 className="mb-6 text-4xl font-black leading-[0.9] text-black uppercase md:text-7xl lg:text-8xl">
           Tupolev IT <br /> Challenge
         </h1>
         
