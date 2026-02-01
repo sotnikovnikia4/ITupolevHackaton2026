@@ -1,0 +1,100 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: hackaton-db
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_NAME}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: hackaton-backend
+    ports:
+      - "${BACKEND_EXTERNAL_PORT:-8080}:${BACKEND_INTERNAL_PORT:-8080}"
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_JSON: >
+        {
+          "spring": {
+            "datasource": {
+              "url": "jdbc:postgresql://postgres:5432/${DB_NAME}",
+              "username": "${DB_USERNAME}",
+              "password": "${DB_PASSWORD}"
+            },
+            "liquibase": {
+              "enabled": ${LIQUIBASE_ENABLED}
+            },
+            "security": {
+              "user": {
+                "name": "${SECURITY_USER_NAME}",
+                "password": "${SECURITY_USER_PASSWORD}"
+              }
+            },
+            "mail": {
+              "host": "${MAIL_HOST}",
+              "port": ${MAIL_PORT},
+              "username": "${MAIL_USERNAME}",
+              "password": "${MAIL_PASSWORD}"
+            }
+          },
+          "server": {
+            "port": ${BACKEND_INTERNAL_PORT:-8080},
+            "ssl": {
+              "key-store": "${SERVER_SSL_KEY_STORE}",
+              "key-store-password": "${SERVER_SSL_KEY_STORE_PASSWORD}",
+              "key-store-type": "${SERVER_SSL_KEY_STORE_TYPE}",
+              "key-alias": "${SERVER_SSL_KEY_ALIAS}",
+              "enabled": ${SERVER_SSL_ENABLED:-false}
+            },
+            "forward-headers-strategy": "framework",
+            "url": "${SERVER_URL}",
+            "description": "${SERVER_DESCRIPTION}"
+          },
+          "cors": {
+            "allowed-origins": "${ALLOWED_ORIGINS}"
+          }
+        }
+
+  frontend:
+    container_name: hackaton-frontend
+    build:
+      context: ./frontend  # Путь к папке с React
+      args:
+        # Передаем переменную внутрь сборки
+        - VITE_API_URL=/api
+    restart: always
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # Пробрасываем конфиг
+      - ./nginx/default.conf.template:/etc/nginx/templates/default.conf.template
+      # Пробрасываем папку с сертификатами (только для чтения)
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - frontend
+      - backend
+    environment:
+      - SERVER_NAME=${SERVER_DOMAIN}
+      - NGINX_ENVSUBST_OUTPUT_DIR=/etc/nginx/conf.d
+      - NGINX_ENVSUBST_FILTER=SERVER_NAME
+
+volumes:
+  postgres_data_prod:
