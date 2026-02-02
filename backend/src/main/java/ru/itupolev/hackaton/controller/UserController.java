@@ -17,7 +17,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<PageDto<UserAnswerDto>> getUsers(int pageNumber, int pageSize) {
+    public ResponseEntity<PageDto<UserAnswerDto>> getUsers(@RequestParam int pageNumber, @RequestParam int pageSize) {
         PageRequestValidator.validate(pageNumber, pageSize);
         return ResponseEntity.ok(Converters.convertToUserPageDto(userService.getUsers(pageNumber, pageSize)));
     }
