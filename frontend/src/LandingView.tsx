@@ -10,7 +10,6 @@ const LandingView: React.FC<LandingViewProps> = ({ onStart }) => {
   return (
     <div 
       onClick={onStart}
-      // Добавляем этот стиль, чтобы iOS Safari строго обрезал контент по скруглению
       style={{ WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}
       className="
         relative z-0 mx-4 cursor-pointer 
@@ -27,10 +26,6 @@ const LandingView: React.FC<LandingViewProps> = ({ onStart }) => {
         hover:scale-[1.02] hover:bg-white/5 active:scale-[0.98]
       "
     >
-      {/* ИЗМЕНЕНИЕ ЗДЕСЬ: 
-         1. Убрали 'overflow-hidden' из className этого div-а (он резал блюр).
-         2. Можно немного увеличить размытие или прозрачность, если край все еще виден.
-      */}
       <div className="pointer-events-none absolute -left-20 -top-20 h-56 w-56 rounded-full bg-white/20 blur-3xl" />
       
       <div className="relative z-10 flex flex-col items-center pointer-events-none">

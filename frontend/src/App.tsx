@@ -9,12 +9,15 @@ const App: React.FC = () => {
 
   return (
     <main 
-      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-cover bg-center font-sans"
+      className="relative flex min-h-screen w-full flex-col overflow-hidden bg-cover bg-center font-sans"
       style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url(${bgImageUrl})` }}
     >
       <SponsorsHeader />
 
-      <div className="mt-32 md:mt-16 flex w-full justify-center px-4">
+      <div className="
+        flex w-full flex-grow flex-col items-center justify-center 
+        px-4 z-0 mt-4
+      ">
         {view === 'landing' ? (
           <LandingView onStart={() => setView('register')} />
         ) : (
