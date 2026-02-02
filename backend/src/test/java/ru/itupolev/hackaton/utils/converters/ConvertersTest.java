@@ -1,12 +1,13 @@
 package ru.itupolev.hackaton.utils.converters;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import ru.itupolev.hackaton.controller.dto.RegistrationDto;
-import ru.itupolev.hackaton.entity.User;
+import org.junit.jupiter.api.*;
+import ru.itupolev.hackaton.controller.dto.*;
+import ru.itupolev.hackaton.entity.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.*;
+
+import static org.assertj.core.api.Assertions.*;
+import static ru.itupolev.hackaton.utils.converters.Converters.*;
 
 @Tag("unit")
 class ConvertersTest {
@@ -161,5 +162,65 @@ class ConvertersTest {
 
         // Assert
         assertThat(result).isEqualTo("@supercoder2000");
+    }
+
+    @Test
+    @DisplayName("Проверка маппинга из User в UserAnswerDto")
+    void shouldMapUserToUserAnswerDto() {
+        // Given: создаем и заполняем сущность User
+        User user = new User();
+        user.setName("Иван");
+        user.setSurname("Иванов");
+        user.setPatronymic("Иванович");
+        user.setEmail("ivan@test.com");
+        user.setTeamLead(true);
+        user.setSearchingCommand(false);
+        user.setOrganization("IT-University");
+        user.setTeamName("Dream Team");
+        user.setTelegramName("@ivan_dev");
+        user.setPhoneNumber("+79991234567");
+
+        // When: вызываем ваш метод конвертации
+        UserAnswerDto dto = convertToUserAnswerDto(user);
+
+        // Then: проверяем каждое поле
+        assertThat(dto.name()).isEqualTo(user.getName());
+        assertThat(dto.surname()).isEqualTo(user.getSurname());
+        assertThat(dto.patronymic()).isEqualTo(user.getPatronymic());
+        assertThat(dto.email()).isEqualTo(user.getEmail());
+        assertThat(dto.teamLead()).isEqualTo(user.isTeamLead());
+        assertThat(dto.searchingCommand()).isEqualTo(user.isSearchingCommand());
+        assertThat(dto.organization()).isEqualTo(user.getOrganization());
+        assertThat(dto.teamName()).isEqualTo(user.getTeamName());
+        assertThat(dto.telegramName()).isEqualTo(user.getTelegramName());
+        assertThat(dto.phoneNumber()).isEqualTo(user.getPhoneNumber());
+    }
+
+    @Test
+    @DisplayName("Проверка маппинга страницы пользователей в PageDto")
+    void shouldMapToUserPageDto() {
+        // Given
+        User user = new User();
+        user.setName("Петр");
+        user.setSurname("Петров");
+        // ... остальные поля ...
+
+        List<UserAnswerDto> dtoList = List.of(convertToUserAnswerDto(user));
+
+        // Данные, которые обычно приходят из Spring Data Page
+        int pageNumber = 1;
+        int pageSize = 10;
+        long totalElements = 1;
+        long totalPages = 1;
+
+        // When
+        PageDto<UserAnswerDto> pageDto = new PageDto<>(
+                pageNumber, pageSize, totalPages, totalElements, dtoList
+        );
+
+        // Then
+        assertThat(pageDto.pageNumber()).isEqualTo(1);
+        assertThat(pageDto.data()).hasSize(1);
+        assertThat(pageDto.data().get(0).surname()).isEqualTo("Петров");
     }
 }

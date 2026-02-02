@@ -1,13 +1,14 @@
 package ru.itupolev.hackaton.service.impl;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.itupolev.hackaton.entity.User;
-import ru.itupolev.hackaton.repository.UserRepository;
-import ru.itupolev.hackaton.service.UserService;
-import ru.itupolev.hackaton.utils.converters.Converters;
+import org.springframework.data.domain.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
+import ru.itupolev.hackaton.entity.*;
+import ru.itupolev.hackaton.repository.*;
+import ru.itupolev.hackaton.service.*;
+import ru.itupolev.hackaton.utils.converters.*;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,5 +33,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserWithTelegram(String telegramName) {
         return userRepository.findByTelegramName(Converters.normalizeTelegramName(telegramName));
+    }
+
+    @Override
+    public Page<User> getUsers(int pageNumber, int pageSize) {
+        return userRepository.findAll(PageRequest.of(pageNumber - 1, pageSize, Sort.by("teamName")));
     }
 }

@@ -1,7 +1,10 @@
 package ru.itupolev.hackaton.utils.converters;
 
-import ru.itupolev.hackaton.controller.dto.RegistrationDto;
-import ru.itupolev.hackaton.entity.User;
+import org.springframework.data.domain.*;
+import ru.itupolev.hackaton.controller.dto.*;
+import ru.itupolev.hackaton.entity.*;
+
+import java.util.*;
 
 public class Converters {
     private Converters() {
@@ -49,5 +52,36 @@ public class Converters {
 
     public static String normalizeTelegramName(String telegramName) {
         return telegramName.toLowerCase().trim();
+    }
+
+    public static PageDto<UserAnswerDto> convertToUserPageDto(Page<User> users) {
+        var result = new LinkedList<UserAnswerDto>();
+
+        users.getContent().forEach(u -> {
+            result.add(convertToUserAnswerDto(u));
+        });
+
+        return new PageDto<>(
+                users.getNumber(),
+                users.getSize(),
+                users.getTotalElements(),
+                users.getTotalPages(),
+                result
+        );
+    }
+
+    public static UserAnswerDto convertToUserAnswerDto(User user) {
+        return new UserAnswerDto(
+                user.getName(),
+                user.getSurname(),
+                user.getPatronymic(),
+                user.getEmail(),
+                user.isTeamLead(),
+                user.isSearchingCommand(),
+                user.getOrganization(),
+                user.getTeamName(),
+                user.getTelegramName(),
+                user.getPhoneNumber()
+        );
     }
 }
