@@ -1,24 +1,18 @@
 package ru.itupolev.hackaton.utils.validators;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.Errors;
-import ru.itupolev.hackaton.controller.dto.RegistrationDto;
-import ru.itupolev.hackaton.entity.User;
-import ru.itupolev.hackaton.service.UserService;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.mockito.*;
+import org.mockito.junit.jupiter.*;
+import org.springframework.validation.*;
+import ru.itupolev.hackaton.controller.dto.*;
+import ru.itupolev.hackaton.entity.*;
+import ru.itupolev.hackaton.service.*;
 
-import java.util.Optional;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class RegistrationDtoValidatorTest {
@@ -67,7 +61,7 @@ class RegistrationDtoValidatorTest {
         validator.validate(dtoWithoutTeam, errors);
 
         assertTrue(errors.hasFieldErrors("teamName"));
-        assertEquals("Team Name Required", errors.getFieldError("teamName").getDefaultMessage());
+        assertEquals("Нужно указать название команды", errors.getFieldError("teamName").getDefaultMessage());
     }
 
     @Test
@@ -79,7 +73,7 @@ class RegistrationDtoValidatorTest {
         validator.validate(validDto, errors);
 
         assertTrue(errors.hasFieldErrors("phoneNumber"));
-        assertEquals("User with phone already exists", errors.getFieldError("phoneNumber").getDefaultMessage());
+        assertEquals("С этим телефоном уже регистрировались", errors.getFieldError("phoneNumber").getDefaultMessage());
     }
 
     @Test
@@ -91,7 +85,7 @@ class RegistrationDtoValidatorTest {
         validator.validate(validDto, errors);
 
         assertTrue(errors.hasFieldErrors("email"));
-        assertEquals("User with email already exists", errors.getFieldError("email").getDefaultMessage());
+        assertEquals("С этим email уже регистрировались", errors.getFieldError("email").getDefaultMessage());
     }
 
     @Test
@@ -103,6 +97,6 @@ class RegistrationDtoValidatorTest {
         validator.validate(validDto, errors);
 
         assertTrue(errors.hasFieldErrors("telegramName"));
-        assertEquals("User with telegram already exists", errors.getFieldError("telegramName").getDefaultMessage());
+        assertEquals("Пользователь с таким телеграм уже есть", errors.getFieldError("telegramName").getDefaultMessage());
     }
 }
