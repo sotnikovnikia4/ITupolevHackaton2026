@@ -14,16 +14,27 @@ const SPONSORS_DATA: Sponsor[] = [
   { id: 5, name: 'SimbirSoft', logoUrl: '/baklazhan.png' },
   { id: 6, name: 'Kai', logoUrl: '/parnas.png' },
   { id: 7, name: 'It Park', logoUrl: '/simbir.png' },
+  { id: 8, name: 'BAS', logoUrl: '/BAS.png' },
 ];
 
 const SponsorsHeader: React.FC = () => {
   return (
     <header className="
-      absolute top-0 left-0 z-10 
-      w-full 
+      z-10 w-full
+
+      /* Mobile: relative - занимает место, но мы уменьшили padding (py-3) */
+      relative px-4 py-3
       
-      flex flex-wrap justify-center items-center gap-y-6 gap-x-8 px-4 py-6
-      md:flex-nowrap md:justify-between md:px-16 md:py-8 md:gap-y-0
+      /* Desktop: absolute - возвращаем как было */
+      md:absolute md:top-0 md:left-0 md:px-16 md:py-8
+
+      flex flex-wrap justify-center items-center 
+      
+      /* Mobile: ОЧЕНЬ компактные отступы (gap-y-2), чтобы ряды не занимали пол-экрана */
+      gap-y-2 gap-x-4
+      
+      /* Desktop: нормальные отступы */
+      md:flex-nowrap md:justify-between md:gap-y-0
     ">
       {SPONSORS_DATA.map((sponsor) => (
         <img 
@@ -33,7 +44,11 @@ const SponsorsHeader: React.FC = () => {
           className="
             pointer-events-auto 
             object-contain 
-            h-7 w-auto
+            
+            /* Mobile: уменьшили высоту до h-5 (20px), чтобы сэкономить место */
+            h-5 w-auto
+            
+            /* Desktop: увеличиваем обратно */
             md:h-12 lg:h-16 md:w-auto
           " 
         />
