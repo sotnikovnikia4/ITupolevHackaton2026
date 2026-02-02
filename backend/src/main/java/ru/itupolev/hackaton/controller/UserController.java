@@ -7,7 +7,8 @@ import ru.itupolev.hackaton.service.*;
 import ru.itupolev.hackaton.utils.converters.*;
 import ru.itupolev.hackaton.utils.validators.*;
 
-@RestController("/api/users")
+@RestController
+@RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
 
