@@ -65,7 +65,6 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onClose }) => {
     let newValue: string | boolean = type === 'checkbox' ? checked : value;
 
     if (name === 'telegramName' && typeof newValue === 'string') {
-      // Гарантируем, что строка всегда начинается с @
       if (!newValue.startsWith('@')) {
         newValue = '@' + newValue.replace(/^@+/, '');
       }
